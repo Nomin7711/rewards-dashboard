@@ -34,8 +34,28 @@ export const initialTransactions: Transaction[] = [
 ];
 
 export const initialGiftCards: GiftCard[] = [
-  { id: 'gc-amazon', name: 'Amazon Gift Card', brand: 'Amazon', pointCost: 500 },
-  { id: 'gc-starbucks', name: '$10 Starbucks', brand: 'Starbucks', pointCost: 1000 },
-  { id: 'gc-target', name: '$25 Target', brand: 'Target', pointCost: 2500 },
-  { id: 'gc-doordash', name: '$15 DoorDash', brand: 'DoorDash', pointCost: 1500 },
+  {
+    id: 'gc-amazon',
+    name: 'Amazon Gift Card',
+    brand: 'Amazon',
+    pointCost: 500,
+  },
+  {
+    id: 'gc-starbucks',
+    name: '$10 Starbucks',
+    brand: 'Starbucks',
+    pointCost: 1000,
+  },
+  {
+    id: 'gc-target',
+    name: '$25 Target',
+    brand: 'Target',
+    pointCost: 2500,
+  },
+  {
+    id: 'gc-doordash',
+    name: '$15 DoorDash',
+    brand: 'DoorDash',
+    pointCost: 1500,
+  },
 ];

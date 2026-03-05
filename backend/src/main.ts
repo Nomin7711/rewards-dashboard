@@ -13,6 +13,10 @@ async function bootstrap() {
     .setTitle('Rewards API')
     .setDescription('API for the Rewards dashboard')
     .setVersion('1.0')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT', in: 'header' },
+      'access-token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
