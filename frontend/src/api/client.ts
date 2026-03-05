@@ -62,14 +62,21 @@ export async function getTransactions(
   residentId: number,
   page = 1,
   limit = 10,
+  options?: { month?: number; year?: number },
 ) {
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  });
+  if (options?.year != null) params.set('year', String(options.year));
+  if (options?.month != null) params.set('month', String(options.month));
   return request<{
     data: import('../types').Transaction[];
     total: number;
     page: number;
     limit: number;
     totalPages: number;
-  }>(`/residents/${residentId}/transactions?page=${page}&limit=${limit}`);
+  }>(`/residents/${residentId}/transactions?${params.toString()}`);
 }
 
 export async function redeem(
