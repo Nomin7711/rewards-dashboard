@@ -20,4 +20,21 @@ export interface GiftCard {
   brand: string;
   pointCost: number;
   imageUrl?: string;
+  /** Display value e.g. "$10" */
+  value?: string;
+}
+
+/** A gift card redeemed by a resident (shows in "My gift cards") */
+export interface RedeemedGiftCard {
+  id: string;
+  residentId: number;
+  giftCardId: string;
+  giftCardName: string;
+  brand: string;
+  amount: string;
+  expirationDate: string;
+  code: string;
+  redeemedAt: string;
+  /** Background/image URL for the card */
+  imageUrl?: string;
 }

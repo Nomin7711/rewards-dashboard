@@ -13,6 +13,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { RedeemedGiftCard } from '../data/entities';
 import { RedeemDto } from './dto/redeem.dto';
 import { ResidentsService } from './residents.service';
 
@@ -38,6 +39,15 @@ export class ResidentsController {
   ) {
     if (id !== residentId) throw new ForbiddenException();
     return this.residents.getProfile(id);
+  }
+
+  @Get(':id/my-gift-cards')
+  getMyGiftCards(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() residentId: number,
+  ): RedeemedGiftCard[] {
+    if (id !== residentId) throw new ForbiddenException();
+    return this.residents.getMyGiftCards(id);
   }
 
   @Get(':id/transactions')
