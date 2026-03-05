@@ -20,6 +20,8 @@ export interface GiftCard {
   pointCost: number;
   imageUrl?: string;
   value?: string;
+  /** Category for filtering: shopping, drinks, beauty, brands */
+  category?: string;
 }
 
 export interface RedeemedGiftCard {

@@ -1,17 +1,33 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as api from '../api/client';
-import { FeaturedGiftCards } from '../components/FeaturedGiftCards';
 import { GiftCardModal } from '../components/GiftCardModal';
+import { GiftCardsGrid } from '../components/GiftCardsGrid';
 import { WelcomeCard } from '../components/WelcomeCard';
 import { useAuth } from '../context/AuthContext';
 import type { GiftCard } from '../types';
 
+export type GiftCardFilter = 'all' | 'drinks' | 'shopping' | 'beauty' | 'brands';
+
+const FILTER_OPTIONS: { value: GiftCardFilter; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'drinks', label: 'Drinks' },
+  { value: 'shopping', label: 'Shopping' },
+  { value: 'beauty', label: 'Beauty' },
+  { value: 'brands', label: 'Brands' },
+];
+
 export function Rewards() {
   const { auth, refreshBalance } = useAuth();
   const [giftCards, setGiftCards] = useState<GiftCard[]>([]);
+  const [filter, setFilter] = useState<GiftCardFilter>('all');
   const [selectedGiftCard, setSelectedGiftCard] = useState<GiftCard | null>(null);
   const [redeemingId, setRedeemingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const filteredGiftCards = useMemo(() => {
+    if (filter === 'all') return giftCards;
+    return giftCards.filter((gc) => gc.category === filter);
+  }, [giftCards, filter]);
 
   const load = useCallback(async () => {
     try {
@@ -73,8 +89,24 @@ export function Rewards() {
         <h2 className="mb-4 text-xl font-bold text-gray-900">
           Redeem with points
         </h2>
-        <FeaturedGiftCards
-          giftCards={giftCards}
+        <div className="mb-4 flex flex-wrap gap-2">
+          {FILTER_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setFilter(opt.value)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-theme-teal focus:ring-offset-2 ${
+                filter === opt.value
+                  ? 'bg-theme-teal text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+        <GiftCardsGrid
+          giftCards={filteredGiftCards}
           onCardClick={setSelectedGiftCard}
           pointsBalance={auth.pointsBalance ?? 0}
         />
