@@ -31,6 +31,8 @@ export class ResidentsService {
     residentId: number,
     page = 1,
     limit = 10,
+    month?: number,
+    year?: number,
   ): {
     data: ReturnType<DataService['getTransactionsByResidentId']>;
     total: number;
@@ -40,7 +42,13 @@ export class ResidentsService {
   } {
     const resident = this.data.getResidentById(residentId);
     if (!resident) throw new NotFoundException('Resident not found');
-    const list = this.data.getTransactionsByResidentId(residentId);
+    let list = this.data.getTransactionsByResidentId(residentId);
+    if (year != null) {
+      list = list.filter((t) => new Date(t.createdAt).getFullYear() === year);
+    }
+    if (month != null) {
+      list = list.filter((t) => new Date(t.createdAt).getMonth() + 1 === month);
+    }
     const total = list.length;
     const limitClamped = Math.max(1, Math.min(limit, 100));
     const totalPages = Math.ceil(total / limitClamped) || 1;

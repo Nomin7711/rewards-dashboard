@@ -22,6 +22,8 @@ export interface GiftCard {
   imageUrl?: string;
   /** Display value e.g. "$10" */
   value?: string;
+  /** Category for filtering: shopping, drinks, beauty, brands */
+  category?: string;
 }
 
 /** A gift card redeemed by a resident (shows in "My gift cards") */

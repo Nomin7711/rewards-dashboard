@@ -56,11 +56,15 @@ export class ResidentsController {
     @CurrentUser() residentId: number,
     @Query('page') pageStr?: string,
     @Query('limit') limitStr?: string,
+    @Query('month') monthStr?: string,
+    @Query('year') yearStr?: string,
   ) {
     if (id !== residentId) throw new ForbiddenException();
     const page = pageStr ? parseInt(pageStr, 10) : 1;
     const limit = limitStr ? parseInt(limitStr, 10) : 10;
-    return this.residents.getTransactions(id, page, limit);
+    const month = monthStr ? parseInt(monthStr, 10) : undefined;
+    const year = yearStr ? parseInt(yearStr, 10) : undefined;
+    return this.residents.getTransactions(id, page, limit, month, year);
   }
 
   @Post(':id/redeem')
