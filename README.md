@@ -4,6 +4,7 @@ A resident rewards dashboard for property management: points balance, transactio
 
 ## Tech stack
 
+- **Frontend:** React (TypeScript) + Vite + Tailwind CSS
 - **Backend:** NestJS (Node.js)
 - **Data:** In-memory mock (no database)
 
@@ -14,6 +15,7 @@ npm run install:all
 npm run dev
 ```
 
+- **Frontend:** http://localhost:5173
 - **Backend API:** http://localhost:3000
 
 ## Auth (JWT)
