@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { DataService } from '../data/data.service';
+import type { RedeemedGiftCard } from '../data/entities';
 import { RedeemDto } from './dto/redeem.dto';
 
 @Injectable()
@@ -49,6 +50,12 @@ export class ResidentsService {
     return { data, total, page: pageSafe, limit: limitClamped, totalPages };
   }
 
+  getMyGiftCards(residentId: number): RedeemedGiftCard[] {
+    const resident = this.data.getResidentById(residentId);
+    if (!resident) throw new NotFoundException('Resident not found');
+    return this.data.getRedeemedGiftCardsByResidentId(residentId);
+  }
+
   redeem(residentId: number, dto: RedeemDto) {
     const resident = this.data.getResidentById(residentId);
     if (!resident) throw new NotFoundException('Resident not found');
@@ -70,7 +77,16 @@ export class ResidentsService {
     );
     if (!tx) throw new BadRequestException('Redemption failed');
 
+    const redeemedCards: RedeemedGiftCard[] = [];
+    for (let i = 0; i < quantity; i++) {
+      redeemedCards.push(this.data.addRedeemedGiftCard(residentId, giftCard));
+    }
+
     const updated = this.data.getResidentById(residentId)!;
-    return { pointsBalance: updated.pointsBalance, transaction: tx };
+    return {
+      pointsBalance: updated.pointsBalance,
+      transaction: tx,
+      redeemedGiftCards: redeemedCards,
+    };
   }
 }

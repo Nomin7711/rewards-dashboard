@@ -1,4 +1,4 @@
-import { GiftCard, Resident, Transaction } from './entities';
+import { GiftCard, RedeemedGiftCard, Resident, Transaction } from './entities';
 
 export const initialResidents: Resident[] = [
   { id: 1, name: 'Alex Rivera', pointsBalance: 2500 },
@@ -39,6 +39,7 @@ export const initialGiftCards: GiftCard[] = [
     name: 'Amazon Gift Card',
     brand: 'Amazon',
     pointCost: 500,
+    value: '$5',
     imageUrl: 'https://picsum.photos/200/120?random=amazon',
   },
   {
@@ -46,6 +47,7 @@ export const initialGiftCards: GiftCard[] = [
     name: '$10 Starbucks',
     brand: 'Starbucks',
     pointCost: 1000,
+    value: '$10',
     imageUrl: 'https://picsum.photos/200/120?random=starbucks',
   },
   {
@@ -53,6 +55,7 @@ export const initialGiftCards: GiftCard[] = [
     name: '$25 Target',
     brand: 'Target',
     pointCost: 2500,
+    value: '$25',
     imageUrl: 'https://picsum.photos/200/120?random=target',
   },
   {
@@ -60,6 +63,22 @@ export const initialGiftCards: GiftCard[] = [
     name: '$15 DoorDash',
     brand: 'DoorDash',
     pointCost: 1500,
+    value: '$15',
     imageUrl: 'https://picsum.photos/200/120?random=doordash',
+  },
+];
+
+export const initialRedeemedGiftCards: RedeemedGiftCard[] = [
+  {
+    id: 'rgc-1',
+    residentId: 1,
+    giftCardId: 'gc-amazon',
+    giftCardName: 'Amazon Gift Card',
+    brand: 'Amazon',
+    amount: '$5',
+    expirationDate: '2026-03-01',
+    code: 'AMZN-XXXX-1234-5678',
+    redeemedAt: '2025-03-01T14:30:00Z',
+    imageUrl: 'https://picsum.photos/200/120?random=amazon',
   },
 ];
