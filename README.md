@@ -16,6 +16,25 @@ npm run dev
 
 - **Backend API:** http://localhost:3000
 
+## Auth (JWT)
+
+Resident endpoints require a JWT. **Login** (no auth):
+
+```bash
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"alex@example.com","password":"password123"}'
+```
+
+Response: `{"access_token":"<JWT>"}`. **Call protected endpoints** with the token:
+
+```bash
+export TOKEN="<paste access_token here>"
+curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/residents/1/balance
+```
+
+Mock users: `alex@example.com` / `password123` (resident 1), `jordan@example.com` / `password123` (resident 2). `GET /gift-cards` is public.
+
 ## Environment
 
 - Copy `.env.example` to `backend/.env` and set `PORT`, `JWT_SECRET` (if using auth).

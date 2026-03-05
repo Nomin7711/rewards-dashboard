@@ -39,23 +39,27 @@ export const initialGiftCards: GiftCard[] = [
     name: 'Amazon Gift Card',
     brand: 'Amazon',
     pointCost: 500,
+    imageUrl: 'https://picsum.photos/200/120?random=amazon',
   },
   {
     id: 'gc-starbucks',
     name: '$10 Starbucks',
     brand: 'Starbucks',
     pointCost: 1000,
+    imageUrl: 'https://picsum.photos/200/120?random=starbucks',
   },
   {
     id: 'gc-target',
     name: '$25 Target',
     brand: 'Target',
     pointCost: 2500,
+    imageUrl: 'https://picsum.photos/200/120?random=target',
   },
   {
     id: 'gc-doordash',
     name: '$15 DoorDash',
     brand: 'DoorDash',
     pointCost: 1500,
+    imageUrl: 'https://picsum.photos/200/120?random=doordash',
   },
 ];

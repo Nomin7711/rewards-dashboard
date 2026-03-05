@@ -31,15 +31,26 @@ export class ResidentsController {
     return this.residents.getBalance(id);
   }
 
+  @Get(':id/profile')
+  getProfile(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() residentId: number,
+  ) {
+    if (id !== residentId) throw new ForbiddenException();
+    return this.residents.getProfile(id);
+  }
+
   @Get(':id/transactions')
   getTransactions(
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() residentId: number,
-    @Query('limit') limit?: string,
+    @Query('page') pageStr?: string,
+    @Query('limit') limitStr?: string,
   ) {
     if (id !== residentId) throw new ForbiddenException();
-    const limitNum = limit ? parseInt(limit, 10) : undefined;
-    return this.residents.getTransactions(id, limitNum);
+    const page = pageStr ? parseInt(pageStr, 10) : 1;
+    const limit = limitStr ? parseInt(limitStr, 10) : 10;
+    return this.residents.getTransactions(id, page, limit);
   }
 
   @Post(':id/redeem')

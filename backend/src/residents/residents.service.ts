@@ -13,15 +13,40 @@ export class ResidentsService {
   getBalance(residentId: number) {
     const resident = this.data.getResidentById(residentId);
     if (!resident) throw new NotFoundException('Resident not found');
-    return { pointsBalance: resident.pointsBalance };
+    return { pointsBalance: resident.pointsBalance, name: resident.name };
   }
 
-  getTransactions(residentId: number, limit?: number) {
+  getProfile(residentId: number) {
     const resident = this.data.getResidentById(residentId);
     if (!resident) throw new NotFoundException('Resident not found');
-    let list = this.data.getTransactionsByResidentId(residentId);
-    if (limit) list = list.slice(0, limit);
-    return list;
+    return {
+      id: resident.id,
+      name: resident.name,
+      pointsBalance: resident.pointsBalance,
+    };
+  }
+
+  getTransactions(
+    residentId: number,
+    page = 1,
+    limit = 10,
+  ): {
+    data: ReturnType<DataService['getTransactionsByResidentId']>;
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  } {
+    const resident = this.data.getResidentById(residentId);
+    if (!resident) throw new NotFoundException('Resident not found');
+    const list = this.data.getTransactionsByResidentId(residentId);
+    const total = list.length;
+    const limitClamped = Math.max(1, Math.min(limit, 100));
+    const totalPages = Math.ceil(total / limitClamped) || 1;
+    const pageSafe = Math.max(1, Math.min(page, totalPages));
+    const start = (pageSafe - 1) * limitClamped;
+    const data = list.slice(start, start + limitClamped);
+    return { data, total, page: pageSafe, limit: limitClamped, totalPages };
   }
 
   redeem(residentId: number, dto: RedeemDto) {

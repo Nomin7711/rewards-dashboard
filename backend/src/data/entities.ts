@@ -19,4 +19,5 @@ export interface GiftCard {
   name: string;
   brand: string;
   pointCost: number;
+  imageUrl?: string;
 }
